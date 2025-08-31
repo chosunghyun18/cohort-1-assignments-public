@@ -39,6 +39,7 @@ contract MiniAMMTest is Test {
 
         // Approve tokens for MiniAMM
         vm.startPrank(alice); // act like alice
+        // approve must be call at client side not in contract -> change personal related info
         token0.approve(address(miniAMM), type(uint256).max);
         token1.approve(address(miniAMM), type(uint256).max);
         vm.stopPrank();
@@ -66,10 +67,12 @@ contract MiniAMMTest is Test {
 
     function test_ConstructorTokenOrdering() public {
         // Test that tokens are ordered correctly (tokenX < tokenY)
+        // EVM은 새 컨트랙트를 배포할 때 주소를 자동으로 할당 A 가 B 보다 먼저 배포 되었기 때문에 주소가 항상 A 가 앞이다.
         MockERC20 tokenA = new MockERC20("Token A", "TKA");
         MockERC20 tokenB = new MockERC20("Token B", "TKB");
 
         MiniAMM amm1 = new MiniAMM(address(tokenA), address(tokenB));
+
         assertEq(amm1.tokenX(), address(tokenA));
         assertEq(amm1.tokenY(), address(tokenB));
 
@@ -94,6 +97,7 @@ contract MiniAMMTest is Test {
     function test_AddLiquidityFirstTime() public {
         uint256 xAmount = 1000 * 10 ** 18;
         uint256 yAmount = 2000 * 10 ** 18;
+        //  address public alice = address(0x1);
 
         vm.startPrank(alice);
 
@@ -102,12 +106,14 @@ contract MiniAMMTest is Test {
         address actualToken1 = miniAMM.tokenY();
 
         // Determine which of our tokens corresponds to token0 and token1
-        MockERC20 token0Actual = actualToken0 == address(token0) ? token0 : token1;
+        // token0 is instance, so if condition is true -> token0Actual = token0
+        MockERC20 token0Actual = actualToken0 == address(token0) ? token0 : token1; 
         MockERC20 token1Actual = actualToken1 == address(token1) ? token1 : token0;
 
         uint256 aliceToken0Before = token0Actual.balanceOf(alice);
         uint256 aliceToken1Before = token1Actual.balanceOf(alice);
 
+        
         miniAMM.addLiquidity(xAmount, yAmount);
 
         // Check that tokens were transferred (xAmount and yAmount correspond to token0 and token1)
