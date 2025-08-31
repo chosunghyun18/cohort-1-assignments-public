@@ -1,6 +1,7 @@
 # cohort-1-assignments
 
 - [1a](./1a)
+- [1b](./1b)
 
 ## AI usage
 
