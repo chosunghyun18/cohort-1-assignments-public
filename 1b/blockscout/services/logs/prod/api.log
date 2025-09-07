@@ -1,0 +1,12 @@
+2025-09-07T15:19:07.763 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:19:07.763 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-07T15:24:09.938 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:24:09.938 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-07T15:26:21.207 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:26:21.207 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-07T15:27:23.418 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:27:23.418 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-07T15:43:10.688 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:43:10.688 application=api [debug] Current API rate limit by IP nil reqs/sec
+2025-09-07T15:51:14.177 application=api [debug] Current API rate limit by key nil reqs/sec
+2025-09-07T15:51:14.177 application=api [debug] Current API rate limit by IP nil reqs/sec
