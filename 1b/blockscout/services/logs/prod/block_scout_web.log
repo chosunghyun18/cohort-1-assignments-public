@@ -2,3 +2,7 @@
 2025-09-08T12:00:13.090 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
 2025-09-08T12:03:43.928 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
 2025-09-08T12:03:44.449 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
+2025-09-08T12:58:44.377 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
+2025-09-08T12:58:45.462 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
+2025-09-08T13:08:23.480 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.
+2025-09-08T13:08:24.402 application=block_scout_web [error] Failed to fetch rate limit config: :invalid_config_url. Fallback to local config.

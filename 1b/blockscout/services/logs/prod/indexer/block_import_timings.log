@@ -1,2 +1,9 @@
 12:00:14.260 [debug] Block 3 fetching duration: 0.03994s. Node delay: 116s.
 12:03:45.649 [debug] Block 1 fetching duration: 0.089064s. Node delay: 28s.
+12:39:01.493 [debug] Block 4 fetching duration: 0.761262s. Node delay: 1s.
+13:08:25.521 [debug] Block 5 fetching duration: 0.032113s. Node delay: 87s.
+13:14:01.286 [debug] Block 6 fetching duration: 0.029199s. Node delay: 0s.
+13:14:32.564 [debug] Block 8 fetching duration: 0.029255s. Node delay: 0s.
+13:14:32.576 [debug] Block 7 fetching duration: 0.041762s. Node delay: 0s.
+13:21:01.517 [debug] Block 1 fetching duration: 0.076362s. Node delay: 0s.
+13:21:05.486 [debug] Block 0 fetching duration: 0.048741s. Node delay: 1757337665s.

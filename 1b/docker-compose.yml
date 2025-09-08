@@ -85,15 +85,86 @@ services:
       - geth
     networks:
       - geth-network
-  # graph-ipfs:
-  # graph-postgres:
-  # graph-redis:
-  # graph-node:
+  
+  # Graph Stack Services
+  graph-ipfs:
+    image: ipfs/kubo:v0.28.0
+    container_name: graph-ipfs
+    ports:
+      - "5011:5001"  # IPFS API (충돌 방지)
+      - "8090:8080"  # IPFS Gateway (충돌 방지)
+    volumes:
+      - graph-ipfs-data:/data/ipfs
+    environment:
+      - IPFS_PROFILE=server
+    networks:
+      - geth-network
+    restart: unless-stopped
 
-  # blockscout: should be another docker-compose.yml file from https://github.com/blockscout/blockscout/tree/master/docker-compose. Don't create a container in this file.
+  graph-postgres:
+    image: postgres:15
+    container_name: graph-postgres
+    ports:
+      - "5442:5432"  # PostgreSQL (충돌 방지)
+    environment:
+      POSTGRES_USER: graph-node
+      POSTGRES_PASSWORD: let-me-in
+      POSTGRES_DB: graph-node
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_INITDB_ARGS: "--locale=C --encoding=UTF8"
+    volumes:
+      - graph-postgres-data:/var/lib/postgresql/data
+    networks:
+      - geth-network
+    restart: unless-stopped
+
+  graph-redis:
+    image: redis:7-alpine
+    container_name: graph-redis
+    ports:
+      - "6389:6379"  # Redis (충돌 방지)
+    volumes:
+      - graph-redis-data:/data
+    networks:
+      - geth-network
+    restart: unless-stopped
+
+  graph-node:
+    image: graphprotocol/graph-node:v0.34.1
+    container_name: graph-node
+    ports:
+      - "8010:8000"  # GraphQL HTTP (충돌 방지)
+      - "8011:8001"  # GraphQL WebSocket (충돌 방지)
+      - "8021:8020"  # JSON-RPC (충돌 방지)
+      - "8031:8030"  # Subgraph indexing status (충돌 방지)
+    depends_on:
+      - graph-ipfs
+      - graph-postgres
+      - graph-redis
+      - geth
+    environment:
+      postgres_host: graph-postgres
+      postgres_port: 5432
+      postgres_user: graph-node
+      postgres_pass: let-me-in
+      postgres_db: graph-node
+      ipfs: graph-ipfs:5001
+      ethereum: "mainnet:http://geth:8545"
+      GRAPH_LOG: info
+      GRAPH_ALLOW_NON_DETERMINISTIC_FULLTEXT_SEARCH: "true"
+      GRAPH_KILL_IF_UNRESPONSIVE: "true"
+      redis: "redis://graph-redis:6379"
+    volumes:
+      - ./graph/config:/etc/graph-node
+    networks:
+      - geth-network
+    restart: unless-stopped
 
 volumes:
   geth-data:
+  graph-ipfs-data:
+  graph-postgres-data:
+  graph-redis-data:
 
 networks:
   geth-network:
