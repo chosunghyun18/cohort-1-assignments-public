@@ -50,28 +50,12 @@
         reverse_proxy geth:8545
     }
     
-    handle {
-        reverse_proxy geth:8545
-    }
-        # Static assets도 proxy로 전달
-    # Explorer - Blockscout
     handle /explorer* {
         uri strip_prefix /explorer
         reverse_proxy frontend:3000
     }
-
-    # API 요청은 backend로
-    handle /explorer/api* {
-        uri strip_prefix /explorer
-        reverse_proxy backend:4000
-    }
-
-    # Static assets
-    handle /_next* {
-        reverse_proxy frontend:3000
-    }
-
-    handle /api* {
-        reverse_proxy backend:4000
+        handle {
+        reverse_proxy geth:8545
     }
 }
+
