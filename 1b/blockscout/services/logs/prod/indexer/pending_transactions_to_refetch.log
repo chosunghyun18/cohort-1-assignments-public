@@ -1,0 +1,20 @@
+14:11:02.512 [debug] Start sanitizing of pending transactions
+14:11:02.514 [debug] Pending transactions are sanitized
+15:11:02.476 [debug] Start sanitizing of pending transactions
+15:11:02.479 [debug] Pending transactions are sanitized
+17:42:54.347 [debug] Start sanitizing of pending transactions
+17:42:54.352 [debug] Pending transactions are sanitized
+19:14:02.484 [debug] Start sanitizing of pending transactions
+19:14:02.490 [debug] Pending transactions are sanitized
+20:28:28.792 [debug] Start sanitizing of pending transactions
+20:28:28.803 [debug] Pending transactions are sanitized
+07:32:01.504 [debug] Start sanitizing of pending transactions
+07:32:01.505 [debug] Pending transactions are sanitized
+13:03:35.093 [debug] Start sanitizing of pending transactions
+13:03:35.099 [debug] Transaction with hash 0xba9a7ba72a54f0465590cbf58e1c43bca5169ba6755e5491ad5f9b490c6b04f0 doesn't exist in the node anymore. We should remove it from Blockscout DB.
+13:03:35.127 [debug] Transaction with hash 0xba9a7ba72a54f0465590cbf58e1c43bca5169ba6755e5491ad5f9b490c6b04f0 successfully deleted from Blockscout DB because it doesn't exist in the archive node anymore
+13:03:35.127 [debug] Transaction with hash 0x15d9f3ba4bc26ee2c4f33138ec19b9b2257e6b9adc3a7237d29c2f2747b5874a doesn't exist in the node anymore. We should remove it from Blockscout DB.
+13:03:35.137 [debug] Transaction with hash 0x15d9f3ba4bc26ee2c4f33138ec19b9b2257e6b9adc3a7237d29c2f2747b5874a successfully deleted from Blockscout DB because it doesn't exist in the archive node anymore
+13:03:35.138 [debug] Transaction with hash 0x7626f2504223a381c348c33ee36a0b72f87145f31b38986979b8bc49c3464707 doesn't exist in the node anymore. We should remove it from Blockscout DB.
+13:03:35.156 [debug] Transaction with hash 0x7626f2504223a381c348c33ee36a0b72f87145f31b38986979b8bc49c3464707 successfully deleted from Blockscout DB because it doesn't exist in the archive node anymore
+13:03:35.156 [debug] Pending transactions are sanitized
