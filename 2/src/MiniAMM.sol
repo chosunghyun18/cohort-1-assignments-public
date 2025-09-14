@@ -34,16 +34,44 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
     // add parameters and implement function.
     // this function will determine the 'k'.
     function _addLiquidityFirstTime(uint256 xAmountIn, uint256 yAmountIn) internal returns (uint256 lpMinted) {
+        IERC20(tokenX).transferFrom(msg.sender,address(this),xAmountIn);
+        IERC20(tokenY).transferFrom(msg.sender,address(this),yAmountIn);
+
+        xReserve = xAmountIn;
+        yReserve = yAmountIn;
+
+        k = xReserve * yReserve ;
     }
 
     // add parameters and implement function.
     // this function will increase the 'k'
     // because it is transferring liquidity from users to this contract.
     function _addLiquidityNotFirstTime(uint256 xAmountIn) internal returns (uint256 lpMinted) {
+    
+        IERC20(tokenX).transferFrom(msg.sender,address(this),xAmountIn);
+        IERC20(tokenY).transferFrom(msg.sender,address(this),yAmountIn);
+
+        xReserve += xAmountIn;
+        yReserve += yAmountIn;
+
+        k = xReserve * yReserve ;
     }
 
     // complete the function. Should transfer LP token to the user.
     function addLiquidity(uint256 xAmountIn, uint256 yAmountIn) external returns (uint256 lpMinted) {
+        if(xAmountIn == 0 || yAmountIn == 0) {
+            revert("Amounts must be greater than 0");
+        }
+
+        if (k == 0) {
+            // add params
+            _addLiquidityFirstTime(xAmountIn,yAmountIn);
+        } else {
+            // add params
+            _addLiquidityNotFirstTime(xAmountIn,yAmountIn);
+        }
+
+        emit AddLiquidity(xAmountIn, yAmountIn);
     }
 
     // Remove liquidity by burning LP tokens
@@ -52,5 +80,44 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
 
     // complete the function
     function swap(uint256 xAmountIn, uint256 yAmountIn) external {
+        if( xReserve == 0 && yReserve == 0 && k ==0) {
+            revert("No liquidity in pool");
+        }
+
+        if( xAmountIn != 0  &&  yAmountIn  != 0) {
+            revert("Can only swap one direction at a time") ;
+        }
+
+        if( xAmountIn == 0  &&  yAmountIn  == 0) {
+            revert("Must swap at least one token") ;
+        }
+
+        if (xAmountIn > xReserve || yAmountIn > yReserve) {
+            revert("Insufficient liquidity");
+        }
+        uint256 xAmountReturn = 0;
+        uint256 yAmountReturn = 0;
+
+        if (yAmountIn == 0) {
+            xReserve += xAmountIn;
+            yAmountReturn = yReserve - (k / xReserve);
+            if (yAmountReturn > yReserve) {
+                revert("Insufficient liquidity");
+            }
+            yReserve -= yAmountReturn;
+            IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
+            IERC20(tokenY).transfer(msg.sender, yAmountReturn);
+            emit Swap(xAmountIn, yAmountReturn);
+        } else {
+           yReserve += yAmountIn;
+            xAmountReturn = xReserve - (k / yReserve);
+            if (xAmountReturn > xReserve) {
+                revert("Insufficient liquidity");
+            }
+            xReserve -= xAmountReturn;
+            IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
+            IERC20(tokenX).transfer(msg.sender, xAmountReturn);
+            emit Swap(xAmountReturn, yAmountIn);
+        }
     }
 }
