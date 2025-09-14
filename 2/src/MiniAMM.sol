@@ -46,7 +46,7 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
     // add parameters and implement function.
     // this function will increase the 'k'
     // because it is transferring liquidity from users to this contract.
-    function _addLiquidityNotFirstTime(uint256 xAmountIn) internal returns (uint256 lpMinted) {
+    function _addLiquidityNotFirstTime(uint256 xAmountIn,uint256 yAmountIn) internal returns (uint256 lpMinted) {
     
         IERC20(tokenX).transferFrom(msg.sender,address(this),xAmountIn);
         IERC20(tokenY).transferFrom(msg.sender,address(this),yAmountIn);
@@ -107,7 +107,7 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
             yReserve -= yAmountReturn;
             IERC20(tokenX).transferFrom(msg.sender, address(this), xAmountIn);
             IERC20(tokenY).transfer(msg.sender, yAmountReturn);
-            emit Swap(xAmountIn, yAmountReturn);
+            emit Swap(xAmountIn, yAmountReturn,xReserve,yReserve);
         } else {
            yReserve += yAmountIn;
             xAmountReturn = xReserve - (k / yReserve);
@@ -117,7 +117,7 @@ contract MiniAMM is IMiniAMM, IMiniAMMEvents, MiniAMMLP {
             xReserve -= xAmountReturn;
             IERC20(tokenY).transferFrom(msg.sender, address(this), yAmountIn);
             IERC20(tokenX).transfer(msg.sender, xAmountReturn);
-            emit Swap(xAmountReturn, yAmountIn);
+            emit Swap(xAmountReturn, yAmountIn,xReserve,yReserve);
         }
     }
 }
